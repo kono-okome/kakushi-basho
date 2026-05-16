@@ -10,18 +10,18 @@
 :root {
   --wc1: #ddeef8;
   --wc2: #c8e3f4;
-  --wc3: #b0d4ee;
-  --wc-deep: #7aafd4;
-  --wc-ink: #4a6f8a;
-  --wc-text: #2e4f6a;
+  --wc3: #90c4e4;
+  --wc-deep: #5a9bc4;
+  --wc-ink: #3a5f7a;
+  --wc-text: #1e3d55;
   --white: #ffffff;
   --off: #f7fbfe;
-  --border: #e0eff8;
-  --border2: #cce2f2;
-  --muted: #93b5cc;
-  --mask-bg: #e8f4fd;
-  --mask-border: #a8cfe8;
-  --mask-text: #3a6a8a;
+  --border: #ccdff0;
+  --border2: #a8cce0;
+  --muted: #6a9ab8;
+  --mask-bg: #e0f0fa;
+  --mask-border: #7ab8d8;
+  --mask-text: #1e4d6a;
   --r: 16px;
   --rl: 24px;
   --sans: 'DM Sans','Noto Sans JP',sans-serif;
@@ -145,20 +145,21 @@ main {
   color: var(--muted);
   line-height: 2;
   letter-spacing: 0.04em;
-  max-width: 400px; margin: 0 auto 28px;
+  max-width: 520px; margin: 0 auto 28px;
+  text-align: left;
 }
 .hero-chips {
   display: flex; flex-wrap: wrap;
-  justify-content: center; gap: 8px;
+  justify-content: center; gap: 0;
 }
 .chip {
   font-size: 11px; font-weight: 300;
   letter-spacing: 0.06em;
-  padding: 5px 14px; border-radius: 20px;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid var(--border2);
-  color: var(--wc-ink);
+  padding: 4px 14px;
+  color: var(--muted);
+  border-right: 1px solid var(--border2);
 }
+.chip:last-child { border-right: none; }
 
 /* ── STEP CARDS ── */
 .step-card {
@@ -221,7 +222,7 @@ textarea:focus {
   background: rgba(255,255,255,0.95);
   box-shadow: 0 0 0 3px rgba(176,212,238,0.2);
 }
-textarea::placeholder { color: var(--border2); font-weight: 300; }
+textarea::placeholder { color: var(--muted); font-weight: 300; }
 
 /* ── OPTION CHIPS ── */
 .opt-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
@@ -406,14 +407,13 @@ footer {
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-badge">✦ KAKUSU-KUN ✦</div>
+    <div class="hero-badge">✦ KAKUSHI-BASHO ✦</div>
     <h1 class="hero-title">
       AIに渡す前に、<br>
       <span>個人情報をそっとかくす</span>
     </h1>
     <p class="hero-desc">
-      テキストを貼り付けるだけで、氏名・住所・金額などを自動でマスキング。<br>
-      AIから回答が返ってきたら、元の情報にワンクリックで復元できます。
+      テキストを貼り付けるだけで、氏名・住所・金額などを自動でマスキング。AIから回答が返ってきたら、元の情報にワンクリックで復元できます。
     </p>
     <div class="hero-chips">
       <span class="chip">🔒 データは外に出ない</span>
