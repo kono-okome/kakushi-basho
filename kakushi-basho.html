@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>かくし場所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wc1: #ddeef8;
+  --wc2: #c8e3f4;
+  --wc3: #b0d4ee;
+  --wc-deep: #7aafd4;
+  --wc-ink: #4a6f8a;
+  --wc-text: #2e4f6a;
+  --white: #ffffff;
+  --off: #f7fbfe;
+  --border: #e0eff8;
+  --border2: #cce2f2;
+  --muted: #93b5cc;
+  --mask-bg: #e8f4fd;
+  --mask-border: #a8cfe8;
+  --mask-text: #3a6a8a;
+  --r: 16px;
+  --rl: 24px;
+  --sans: 'DM Sans','Noto Sans JP',sans-serif;
+  --serif: 'Shippori Mincho','Noto Sans JP',serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body {
+  font-family: var(--sans);
+  background: var(--off);
+  color: var(--wc-text);
+  min-height: 100vh;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+/* 背景の水彩グラデーション */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(180,220,245,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 90% 30%, rgba(200,230,248,0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 50% at 30% 100%, rgba(160,210,238,0.35) 0%, transparent 70%),
+    #f5fafd;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,251,254,0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 0 32px;
+}
+.header-inner {
+  max-width: 680px; margin: 0 auto;
+  display: flex; align-items: center; gap: 14px;
+  height: 58px;
+}
+.logo-mark {
+  font-size: 22px;
+  opacity: 0.85;
+  animation: sway 4s ease-in-out infinite;
+}
+@keyframes sway {
+  0%,100%{transform:rotate(-4deg);}
+  50%{transform:rotate(4deg);}
+}
+.logo-name {
+  font-family: var(--serif);
+  font-size: 19px; font-weight: 500;
+  color: var(--wc-text);
+  letter-spacing: 0.08em;
+}
+.logo-sub {
+  font-size: 10px; color: var(--muted);
+  font-weight: 300; letter-spacing: 0.12em;
+  margin-top: 1px;
+}
+.safe-tag {
+  margin-left: auto;
+  font-size: 10px; letter-spacing: 0.08em;
+  color: var(--wc-deep);
+  background: rgba(200,227,244,0.45);
+  border: 1px solid var(--border2);
+  padding: 4px 12px; border-radius: 20px;
+  display: flex; align-items: center; gap: 5px;
+}
+.safe-tag::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--wc-deep);
+  border-radius: 50%;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+/* ── MAIN ── */
+main {
+  max-width: 680px; margin: 0 auto;
+  padding: 40px 20px;
+  position: relative; z-index: 1;
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 48px 20px 52px;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 11px; letter-spacing: 0.14em;
+  color: var(--wc-deep);
+  border: 1px solid var(--border2);
+  padding: 5px 16px; border-radius: 20px;
+  margin-bottom: 24px;
+  background: rgba(255,255,255,0.6);
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.05em;
+  color: var(--wc-text);
+  margin-bottom: 18px;
+}
+.hero-title span {
+  display: inline-block;
+  border-bottom: 1.5px solid var(--wc3);
+  padding-bottom: 2px;
+}
+.hero-desc {
+  font-size: 13px; font-weight: 300;
+  color: var(--muted);
+  line-height: 2;
+  letter-spacing: 0.04em;
+  max-width: 400px; margin: 0 auto 28px;
+}
+.hero-chips {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 8px;
+}
+.chip {
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 0.06em;
+  padding: 5px 14px; border-radius: 20px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border2);
+  color: var(--wc-ink);
+}
+
+/* ── STEP CARDS ── */
+.step-card {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  margin-bottom: 14px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.step-card:hover {
+  box-shadow: 0 8px 32px rgba(100,170,210,0.12);
+  transform: translateY(-1px);
+}
+
+.step-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(200,227,244,0.5);
+}
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--wc2);
+  color: var(--wc-text);
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; letter-spacing: 0;
+}
+.step-info {}
+.step-label {
+  font-size: 9px; letter-spacing: 0.18em;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 2px;
+}
+.step-title {
+  font-size: 13px; font-weight: 500;
+  color: var(--wc-text); letter-spacing: 0.04em;
+}
+
+.step-body { padding: 20px 22px; }
+
+/* ── TEXTAREA ── */
+textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px; font-weight: 300;
+  line-height: 1.9; color: var(--wc-text);
+  resize: vertical; min-height: 140px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.02em;
+}
+textarea:focus {
+  border-color: var(--wc3);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 0 3px rgba(176,212,238,0.2);
+}
+textarea::placeholder { color: var(--border2); font-weight: 300; }
+
+/* ── OPTION CHIPS ── */
+.opt-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.opt-lbl {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 15px; border-radius: 20px;
+  font-size: 12px; font-weight: 300; letter-spacing: 0.04em;
+  border: 1px solid var(--border2);
+  background: rgba(255,255,255,0.7);
+  color: var(--muted);
+  cursor: pointer; transition: all 0.18s; user-select: none;
+}
+.opt-lbl:hover { border-color: var(--wc3); color: var(--wc-text); }
+.opt-lbl.on {
+  background: rgba(200,227,244,0.35);
+  border-color: var(--wc3);
+  color: var(--wc-ink);
+  font-weight: 400;
+}
+.opt-lbl input { display: none; }
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+button {
+  font-family: var(--sans);
+  font-size: 13px; font-weight: 400;
+  letter-spacing: 0.06em;
+  padding: 11px 22px; border-radius: 20px;
+  border: none; cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 7px;
+}
+.btn-main {
+  background: var(--wc3);
+  color: var(--white);
+  flex: 1; justify-content: center;
+  box-shadow: 0 2px 12px rgba(122,175,212,0.3);
+}
+.btn-main:hover {
+  background: var(--wc-deep);
+  box-shadow: 0 4px 18px rgba(122,175,212,0.4);
+  transform: translateY(-1px);
+}
+.btn-main:active { transform: translateY(0); }
+.btn-main:disabled {
+  background: var(--border);
+  color: var(--muted);
+  box-shadow: none; cursor: not-allowed; transform: none;
+}
+.btn-soft {
+  background: rgba(255,255,255,0.8);
+  color: var(--muted);
+  border: 1px solid var(--border2);
+}
+.btn-soft:hover { color: var(--wc-ink); background: rgba(255,255,255,0.95); }
+
+.btn-lav {
+  background: rgba(176,212,238,0.25);
+  color: var(--wc-ink);
+  border: 1px solid var(--wc3);
+  flex: 1; justify-content: center;
+}
+.btn-lav:hover { background: rgba(176,212,238,0.45); }
+.btn-lav:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ── OUTPUT BOX ── */
+.out-box {
+  width: 100%; min-height: 130px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px; font-weight: 300;
+  line-height: 1.9; letter-spacing: 0.02em;
+  background: rgba(255,255,255,0.7);
+  white-space: pre-wrap; word-break: break-all;
+  color: var(--wc-text);
+}
+.out-box.active {
+  background: rgba(220,240,252,0.3);
+  border-color: var(--wc3);
+}
+.out-box.soft {
+  background: rgba(220,240,252,0.18);
+  border-color: var(--border2);
+}
+.masked-tok {
+  display: inline-block;
+  background: rgba(176,212,238,0.25);
+  border: 1px solid var(--mask-border);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 11px; font-weight: 400;
+  color: var(--mask-text);
+  cursor: help; white-space: nowrap; vertical-align: middle;
+  letter-spacing: 0.03em;
+}
+
+/* ── EMPTY STATE ── */
+.empty-st {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 100px; gap: 8px;
+  color: var(--border2); font-size: 13px; font-weight: 300;
+  letter-spacing: 0.04em; text-align: center;
+}
+.empty-ico { font-size: 26px; opacity: 0.5; }
+
+/* ── STATS ── */
+.stats-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.stat-chip {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid var(--border2);
+  border-radius: 20px; padding: 4px 13px;
+  font-size: 11px; color: var(--muted); font-weight: 300;
+}
+.stat-chip strong { color: var(--wc-deep); font-weight: 500; }
+
+/* ── HINT ── */
+.hint { font-size: 11px; color: var(--muted); margin-top: 10px; line-height: 1.8; font-weight: 300; letter-spacing: 0.03em; }
+
+/* ── FLOW ARROW ── */
+.flow-arr {
+  text-align: center; padding: 4px 0;
+  color: var(--border2); font-size: 16px;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center; margin-top: 48px;
+  font-size: 10px; font-weight: 300; letter-spacing: 0.06em;
+  color: var(--muted); line-height: 2.2;
+  position: relative; z-index: 1;
+}
+.footer-note {
+  display: inline-block;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 20px; margin-bottom: 10px;
+  font-size: 10px; color: var(--muted);
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--wc-text); color: #fff;
+  font-size: 12px; font-weight: 300; letter-spacing: 0.06em;
+  padding: 11px 24px; border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(46,79,106,0.2);
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events: none; z-index: 9999; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media(max-width:600px){
+  .safe-tag span{display:none;}
+  header{padding:0 16px;}
+  main{padding:24px 14px;}
+  .step-body,.step-head{padding-left:16px;padding-right:16px;}
+  .btn-row{flex-direction:column;}
+  .btn-main,.btn-lav{flex:none;width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="logo-mark">🥷</span>
+    <div>
+      <div class="logo-name">かくし場所</div>
+      <div class="logo-sub">PRIVACY MASKING TOOL</div>
+    </div>
+    <div class="safe-tag"><span>ブラウザ内処理のみ</span></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">✦ KAKUSU-KUN ✦</div>
+    <h1 class="hero-title">
+      AIに渡す前に、<br>
+      <span>個人情報をそっとかくす</span>
+    </h1>
+    <p class="hero-desc">
+      テキストを貼り付けるだけで、氏名・住所・金額などを自動でマスキング。<br>
+      AIから回答が返ってきたら、元の情報にワンクリックで復元できます。
+    </p>
+    <div class="hero-chips">
+      <span class="chip">🔒 データは外に出ない</span>
+      <span class="chip">⚡ インストール不要</span>
+      <span class="chip">📋 ワンクリックコピー</span>
+      <span class="chip">¥0 完全無料</span>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num">1</div>
+      <div class="step-info">
+        <div class="step-label">Step 01</div>
+        <div class="step-title">テキストを貼り付ける</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <textarea id="inputText" placeholder="ここにAIに渡したいテキストを貼り付けてください。&#10;&#10;例）山田太郎様（代表取締役）、東京都渋谷区神南1-2-3、&#10;売上高 ¥12,500,000、mail@example.com、090-1234-5678"></textarea>
+      <div class="btn-row">
+        <button class="btn-soft" onclick="clearAll()">クリア</button>
+        <button class="btn-soft" onclick="loadSample()">サンプルを試す</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arr">↓</div>
+
+  <!-- STEP 2 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num">2</div>
+      <div class="step-info">
+        <div class="step-label">Step 02</div>
+        <div class="step-title">かくす情報の種類を選ぶ</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="opt-group" id="optGrid">
+        <label class="opt-lbl on"><input type="checkbox" value="name" checked onchange="toggleOpt(this)">👤 氏名・人名</label>
+        <label class="opt-lbl on"><input type="checkbox" value="address" checked onchange="toggleOpt(this)">🏠 住所</label>
+        <label class="opt-lbl on"><input type="checkbox" value="amount" checked onchange="toggleOpt(this)">💴 金額・数字</label>
+        <label class="opt-lbl on"><input type="checkbox" value="email" checked onchange="toggleOpt(this)">📧 メールアドレス</label>
+        <label class="opt-lbl on"><input type="checkbox" value="phone" checked onchange="toggleOpt(this)">📱 電話番号</label>
+        <label class="opt-lbl on"><input type="checkbox" value="company" checked onchange="toggleOpt(this)">🏢 会社名・屋号</label>
+      </div>
+      <button class="btn-main" onclick="doMask()" style="width:100%;justify-content:center;">
+        🥷 マスキングする
+      </button>
+    </div>
+  </div>
+
+  <div class="flow-arr">↓</div>
+
+  <!-- STEP 3 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num">3</div>
+      <div class="step-info">
+        <div class="step-label">Step 03</div>
+        <div class="step-title">コピーして、AIに貼り付ける</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <div class="out-box" id="outputBox">
+        <div class="empty-st">
+          <span class="empty-ico">🥷</span>
+          <span>Step 1・2 を完了すると結果が表示されます</span>
+        </div>
+      </div>
+      <div class="stats-row" id="statsRow" style="display:none;">
+        <div class="stat-chip">マスク: <strong id="statCount">0</strong> 箇所</div>
+        <div class="stat-chip">種別: <strong id="statTypes">—</strong></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-main" onclick="copyMasked()" id="copyBtn" disabled>📋 コピーする</button>
+      </div>
+      <p class="hint">コピーしたら、そのまま ChatGPT・Claude などに貼り付けてください</p>
+    </div>
+  </div>
+
+  <div class="flow-arr">↓</div>
+
+  <!-- STEP 4 -->
+  <div class="step-card">
+    <div class="step-head">
+      <div class="step-num">4</div>
+      <div class="step-info">
+        <div class="step-label">Step 04</div>
+        <div class="step-title">AIの回答を元の情報に戻す</div>
+      </div>
+    </div>
+    <div class="step-body">
+      <textarea id="restoreInput" placeholder="AIからの回答をここに貼り付けてください。&#10;【氏名_1】のようなトークンが含まれていれば、元の情報に自動で置き換えます。" style="min-height:110px;"></textarea>
+      <div class="btn-row">
+        <button class="btn-lav" onclick="doRestore()" id="restoreBtn" disabled>🔓 元の情報に戻す</button>
+      </div>
+      <div class="out-box soft" id="restoredBox" style="display:none;margin-top:14px;"></div>
+      <div class="btn-row" id="restoreCopyRow" style="display:none;margin-top:8px;">
+        <button class="btn-soft" onclick="copyRestored()">📋 復元テキストをコピー</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      ⚠️ このツールはマスキング処理の補助ツールです。すべての情報漏えいを完全に防止するものではありません。
+    </div>
+    <div>AIツールへの入力内容や各AIの利用規約は、用途に応じてご確認ください。</div>
+    <div>All processing is done locally in your browser. No data is transmitted.</div>
+  </footer>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let maskMap={},maskCounter={},maskedText='';
+const PATTERNS={
+  email:{label:'メール',regex:/[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/g},
+  phone:{label:'電話',regex:/(?:\+81[-\s]?|0)(?:\d{1,4}[-\s]?\d{1,4}[-\s]?\d{3,4}|\d{10,11})/g},
+  amount:{label:'金額',regex:/(?:¥|￥)?\s*\d{1,3}(?:[,，]\d{3})+(?:\.\d+)?(?:\s*(?:円|万円|億円|千円))?|\d+\s*(?:万円|億円|千円)/g},
+  address:{label:'住所',regex:/(?:東京都|大阪府|京都府|北海道|神奈川県|愛知県|福岡県|埼玉県|千葉県|兵庫県|静岡県|茨城県|広島県|宮城県|新潟県|長野県|岐阜県|栃木県|群馬県|岡山県|福島県|三重県|熊本県|鹿児島県|山口県|愛媛県|長崎県|奈良県|青森県|岩手県|大分県|石川県|宮崎県|山形県|富山県|秋田県|香川県|和歌山県|山梨県|佐賀県|福井県|徳島県|高知県|島根県|鳥取県|沖縄県)[^\s、。\n]{2,40}/g},
+  company:{label:'会社名',regex:/(?:株式会社|有限会社|合同会社|一般社団法人|公益社団法人|NPO法人|医療法人|社会福祉法人|学校法人)\s*[\u3040-\u9fff\u30A0-\u30FFa-zA-Z\d]{1,30}|[\u3040-\u9fff\u30A0-\u30FFa-zA-Z\d]{1,30}\s*(?:株式会社|有限会社|合同会社)/g},
+  name:{label:'氏名',regex:/[\u4e00-\u9fff]{1,3}[\u3000\s　]?[\u4e00-\u9fff]{1,4}(?:様|さん|氏|君|殿|代表|社長|部長|課長|先生|院長|理事長)/g}
+};
+function getActive(){return[...document.querySelectorAll('#optGrid input:checked')].map(e=>e.value);}
+function toggleOpt(cb){cb.closest('label').classList.toggle('on',cb.checked);}
+function doMask(){
+  const input=document.getElementById('inputText').value.trim();
+  if(!input){toast('テキストを入力してください');return;}
+  const active=getActive();
+  if(!active.length){toast('種類を1つ以上選んでください');return;}
+  maskMap={};maskCounter={};
+  let all=[];
+  for(const key of ['email','phone','address','company','amount','name']){
+    if(!active.includes(key))continue;
+    const p=PATTERNS[key];const re=new RegExp(p.regex.source,p.regex.flags);let m;
+    while((m=re.exec(input))!==null){
+      if(key==='name'&&m[0].length<3)continue;
+      all.push({start:m.index,end:m.index+m[0].length,text:m[0],label:p.label});
+    }
+  }
+  all.sort((a,b)=>a.start-b.start);
+  const filtered=[];let lastEnd=-1;
+  for(const m of all){if(m.start>=lastEnd){filtered.push(m);lastEnd=m.end;}}
+  filtered.sort((a,b)=>b.start-a.start);
+  let chars=input.split('');
+  for(const m of filtered){
+    if(!maskCounter[m.label])maskCounter[m.label]=0;
+    maskCounter[m.label]++;
+    const tok=`【${m.label}_${maskCounter[m.label]}】`;
+    maskMap[tok]=m.text;chars.splice(m.start,m.end-m.start,tok);
+  }
+  maskedText=chars.join('');
+  const count=filtered.length;
+  const types=[...new Set(filtered.map(m=>m.label))];
+  const box=document.getElementById('outputBox');
+  if(count===0){
+    box.innerHTML='<div class="empty-st"><span class="empty-ico">🤔</span><span>マスキングできる情報が見つかりませんでした</span></div>';
+    box.classList.remove('active');
+  } else {
+    box.classList.add('active');
+    box.innerHTML=esc(maskedText).replace(/【([^】]+)】/g,m=>`<span class="masked-tok" title="復元できます">${m}</span>`);
+    document.getElementById('statCount').textContent=count;
+    document.getElementById('statTypes').textContent=types.join('・');
+    document.getElementById('statsRow').style.display='flex';
+  }
+  document.getElementById('copyBtn').disabled=count===0;
+  document.getElementById('restoreBtn').disabled=count===0;
+}
+function doRestore(){
+  const input=document.getElementById('restoreInput').value;
+  if(!input.trim()){toast('AIの回答を貼り付けてください');return;}
+  if(!Object.keys(maskMap).length){toast('先にStep 1〜3を実行してください');return;}
+  let result=input;
+  for(const[tok,orig]of Object.entries(maskMap))result=result.replaceAll(tok,orig);
+  const box=document.getElementById('restoredBox');
+  box.style.display='block';box.dataset.plain=result;box.innerHTML=esc(result);
+  document.getElementById('restoreCopyRow').style.display='flex';
+}
+async function copyMasked(){if(!maskedText)return;await doCopy(maskedText,'コピーしました');}
+async function copyRestored(){const b=document.getElementById('restoredBox');await doCopy(b.dataset.plain||'','復元テキストをコピーしました');}
+async function doCopy(text,msg){try{await navigator.clipboard.writeText(text);toast(msg);}catch{toast('コピーに失敗しました');}}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2400);}
+function clearAll(){
+  document.getElementById('inputText').value='';
+  document.getElementById('outputBox').innerHTML='<div class="empty-st"><span class="empty-ico">🥷</span><span>Step 1・2 を完了すると結果が表示されます</span></div>';
+  document.getElementById('outputBox').classList.remove('active');
+  document.getElementById('statsRow').style.display='none';
+  document.getElementById('copyBtn').disabled=true;
+  document.getElementById('restoreBtn').disabled=true;
+  document.getElementById('restoredBox').style.display='none';
+  document.getElementById('restoreCopyRow').style.display='none';
+  document.getElementById('restoreInput').value='';
+  maskMap={};maskCounter={};maskedText='';
+}
+function loadSample(){
+  document.getElementById('inputText').value=`山田太郎様（代表取締役）より補助金申請書を受領しました。\n\n所在地：東京都渋谷区神南1丁目2番3号 山田ビル5F\n連絡先：yamada@example-company.co.jp / 03-1234-5678\n携帯：090-9876-5432\n\n申請内容：\n・株式会社サンプルホールディングス\n・前期売上高：¥12,500,000\n・従業員数：45名\n・補助金申請額：5,000,000円`;
+}
+</script>
+</body>
+</html>
